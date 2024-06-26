@@ -1,7 +1,3 @@
-tools {
-    nodejs "nodejs"
-}
-
 pipeline {
     agente any
 
@@ -25,4 +21,8 @@ pipeline {
             }
         }
     }
+}
+
+tools {
+    nodejs "nodejs"
 }
