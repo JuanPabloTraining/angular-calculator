@@ -8,7 +8,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'sudo chown -R 111:113 "/.npm'
                 sh 'npm install' // Instala las dependencias del proyecto
             }
         }
@@ -20,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("my-angular-app:${env.BUILD_NUMBER}") // Construye la imagen Docker
+                    docker.build("calculator-app:${env.BUILD_NUMBER}") // Construye la imagen Docker
                 }
             }
         }
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://your-docker-registry', 'docker-hub-credentials') {
-                        docker.image("my-angular-app:${env.BUILD_NUMBER}").push() // Publica la imagen en el registro Docker
+                        docker.image("calculator-app:${env.BUILD_NUMBER}").push() // Publica la imagen en el registro Docker
                     }
                 }
             }
