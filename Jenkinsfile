@@ -8,12 +8,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'sudo npm install' // Instala las dependencias del proyecto
+                sh 'sudo chown -R 111:113 "/.npm'
+                sh 'npm install' // Instala las dependencias del proyecto
             }
         }
         stage('Test') {
             steps {
-                sh 'sudo npm test' // Ejecuta los tests
+                sh 'npm test' // Ejecuta los tests
             }
         }
         stage('Build Docker Image') {
