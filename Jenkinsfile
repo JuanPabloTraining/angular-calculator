@@ -1,32 +1,34 @@
 pipeline {
-    agent any
-
-    tools {
-        nodejs "nodejs"
+    agent {
+        docker {
+            image 'node:14' // Use a Node.js image
+            args '-p 3000:80' // Map the app's port to host
+        }
     }
-
     stages {
-        stage('Install packages') {
+        stage('Build') {
+            steps {
+                sh 'npm install' // Install project dependencies
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm test' // Run tests
+            }
+        }
+        stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'npm install'
+                    docker.build("my-angular-app:${env.BUILD_NUMBER}")
                 }
             }
         }
-
-        stage('Run the tests') {
+        stage('Deploy') {
             steps {
                 script {
-                    sh 'ng test --watch=false'
-                }
-            }
-        }
-
-        stage('Run the App') {
-            steps {
-                script {
-                    sh 'ng serve &'
-                    sleep 5
+                    docker.withRegistry('https://your-docker-registry', 'docker-hub-credentials') {
+                        docker.image("my-angular-app:${env.BUILD_NUMBER}").push()
+                    }
                 }
             }
         }
