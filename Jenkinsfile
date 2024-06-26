@@ -8,13 +8,12 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm config set cache /tmp/.npm --global'
-                sh 'npm install' // Instala las dependencias del proyecto
+                sh 'sudo npm install' // Instala las dependencias del proyecto
             }
         }
         stage('Test') {
             steps {
-                sh 'npm test' // Ejecuta los tests
+                sh 'sudo npm test' // Ejecuta los tests
             }
         }
         stage('Build Docker Image') {
