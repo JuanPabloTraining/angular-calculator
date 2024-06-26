@@ -1,6 +1,6 @@
 FROM node:lts-slim
 
-RUN apt-get update && apt-get install -y sudo
+ENV npm_config_unsafe_perm=true
 
 WORKDIR /app
 
