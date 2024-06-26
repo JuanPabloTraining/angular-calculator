@@ -1,4 +1,4 @@
-FROM node:@latest
+FROM node:lts-slim
 
 ENV npm_config_unsafe_perm=true
 

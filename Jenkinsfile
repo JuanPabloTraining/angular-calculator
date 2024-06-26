@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:@latest'
+            image 'node:lts-slim'
             args '-p 3000:80'
         }
     }
