@@ -1,6 +1,10 @@
 pipeline {
     agente any
 
+    tools {
+        nodejs "nodejs"
+    }
+
     stages {
         stage('Install packages') {
             script {
@@ -21,8 +25,4 @@ pipeline {
             }
         }
     }
-}
-
-tools {
-    nodejs "nodejs"
 }
