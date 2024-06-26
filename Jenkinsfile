@@ -8,7 +8,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'npm config set cache /tmp/.npm --global' // Configura la cache de npm a un directorio accesible
                 sh 'npm install' // Instala las dependencias del proyecto
             }
         }
