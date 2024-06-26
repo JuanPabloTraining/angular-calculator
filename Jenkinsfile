@@ -8,8 +8,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'sudo chown -R 111:113 "/.npm"'
-                sh 'npm install' // Instala las dependencias del proyecto
+                sh 'chown -R 111:113 /.npm'
+                sh 'npm install'
             }
         }
         stage('Test') {
