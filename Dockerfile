@@ -2,7 +2,7 @@ FROM node:lts-slim
 
 ENV npm_config_unsafe_perm=true
 
-WORKDIR /app
+WORKDIR /src
 
 COPY package*.json ./
 
