@@ -1,38 +1,49 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-slim'
-            args '-p 3000:80'
-        }
+    agent any
+
+    environment {
+        DOCKER_IMAGE = 'calculator-app'
+        REPO_URL = 'https://github.com/JuanPabloTraining/angular-calculator.git'
     }
+
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                sh 'ls'
-                sh 'chown -R 111:113 /.npm'
-                sh 'npm install'
+                git branch: 'main', url: "${REPO_URL}"
             }
         }
-        stage('Test') {
-            steps {
-                sh 'npm test' // Ejecuta los tests
-            }
-        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("calculator-app:${env.BUILD_NUMBER}") // Construye la imagen Docker
+                    docker.build("${DOCKER_IMAGE}", '.')
                 }
             }
         }
-        stage('Deploy') {
+
+        stage('Run Tests') {
             steps {
                 script {
-                    docker.withRegistry('https://your-docker-registry', 'docker-hub-credentials') {
-                        docker.image("calculator-app:${env.BUILD_NUMBER}").push() // Publica la imagen en el registro Docker
+4                    docker.image("${DOCKER_IMAGE}").inside {
+                        sh 'npm test'
                     }
                 }
             }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    def container = docker.image("${DOCKER_IMAGE}")
+                    container.run('-d -p 4200:80 --name calculator-app-container')
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
