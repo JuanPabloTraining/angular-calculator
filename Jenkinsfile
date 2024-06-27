@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
 4                    docker.image("${DOCKER_IMAGE}").inside {
-                        sh 'npm test'
+                        sh 'ng test'
                     }
                 }
             }
