@@ -21,11 +21,21 @@ pipeline {
             }
         }
 
+        stage('Run Tests') {
+            steps {
+                script {
+                    docker.image("${DOCKER_IMAGE}").inside {
+                        sh 'ng test'
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 script {
                     def container = docker.image("${DOCKER_IMAGE}")
-                    container.run('-d -p 4200:80 --name calculator-app-container')
+                    container.run('-p 4200:80 --name calculator-app-container')
                 }
             }
         }
