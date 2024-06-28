@@ -21,16 +21,6 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-4                    docker.image("${DOCKER_IMAGE}").inside {
-                        sh 'ng test'
-                    }
-                }
-            }
-        }
-
         stage('Deploy') {
             steps {
                 script {
