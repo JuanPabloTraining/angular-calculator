@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'calculator-app'
+        DOCKER_IMAGE = 'calculator-app-1'
         REPO_URL = 'https://github.com/JuanPabloTraining/angular-calculator.git'
     }
 
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     def container = docker.image("${DOCKER_IMAGE}")
-                    container.run('-p 4200:80 --name calculator-app-container')
+                    container.run('-p 4200:80 --name calculator-app-container-1')
                 }
             }
         }
